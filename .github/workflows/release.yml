@@ -42,6 +42,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url:           ${{ steps.create_release.outputs.upload_url }}
-          asset_path:           c2_Classifier_Sentiment_Model.pkl
-          asset_name:           c2_Classifier_Sentiment_Model.pkl
+          asset_path:           c2_Classifier_Sentiment_Model
+          asset_name:           c2_Classifier_Sentiment_Model
           asset_content_type:   application/octet-stream
