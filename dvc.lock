@@ -1,0 +1,58 @@
+schema: '2.0'
+stages:
+  prepare:
+    cmd: python src/data_prep.py
+    deps:
+    - path: data/a1_RestaurantReviews_HistoricDump.tsv
+      hash: md5
+      md5: 102f1f4193e0bdebdd6cce7f13e0a839
+      size: 54686
+    - path: src/data_prep.py
+      hash: md5
+      md5: 417d403c043c6bd4f3e1b9a8a9bc287b
+      size: 764
+    outs:
+    - path: data/processed.csv
+      hash: md5
+      md5: c6f23599564ef5479d4b4963e9ae8ae7
+      size: 31610
+  train:
+    cmd: python src/train.py
+    deps:
+    - path: data/processed.csv
+      hash: md5
+      md5: c6f23599564ef5479d4b4963e9ae8ae7
+      size: 31610
+    - path: src/train.py
+      hash: md5
+      md5: 94a2f97903930e6a020a9ccb4806591e
+      size: 859
+    outs:
+    - path: data/predictions.csv
+      hash: md5
+      md5: c5c9234b3381cfa8b7d1649497e18a8a
+      size: 730
+    - path: models/c1_BoW.pkl
+      hash: md5
+      md5: 3fad7a4c0ec1b2a1fc95334240b40d81
+      size: 39432
+    - path: models/c2_model.pkl
+      hash: md5
+      md5: 2e98005c7db9fadc54c17d3118d067fc
+      size: 46215
+  evaluate:
+    cmd: python src/evaluate.py
+    deps:
+    - path: data/predictions.csv
+      hash: md5
+      md5: c5c9234b3381cfa8b7d1649497e18a8a
+      size: 730
+    - path: src/evaluate.py
+      hash: md5
+      md5: 47183448125d6937334d5d178b05ee49
+      size: 426
+    outs:
+    - path: metrics.json
+      hash: md5
+      md5: 79d2b3758ddfb474941d20bfc20d2389
+      size: 74

@@ -3,5 +3,4 @@ pandas
 nltk
 scikit-learn
 joblib
-git+https://github.com/remla25-team22/lib-ml@v1.0.2
-pytest
+git+https://github.com/remla25-team22/lib-ml.git@v1.0.2
