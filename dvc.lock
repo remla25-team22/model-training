@@ -3,56 +3,57 @@ stages:
   prepare:
     cmd: python src/data_prep.py
     deps:
-    - path: data/a1_RestaurantReviews_HistoricDump.tsv
+    - path: data/raw/a1_RestaurantReviews_HistoricDump.tsv
       hash: md5
       md5: 102f1f4193e0bdebdd6cce7f13e0a839
       size: 54686
     - path: src/data_prep.py
       hash: md5
-      md5: 417d403c043c6bd4f3e1b9a8a9bc287b
-      size: 764
+      md5: f53eeb74b5e7e3755040cbcbb5d2873c
+      size: 1105
     outs:
-    - path: data/processed.csv
+    - path: data/preprocessed
       hash: md5
-      md5: c6f23599564ef5479d4b4963e9ae8ae7
-      size: 31610
+      md5: 1dcd2f05b562d14f93a804af1fc33399.dir
+      size: 31638
+      nfiles: 3
   train:
     cmd: python src/train.py
     deps:
-    - path: data/processed.csv
+    - path: data/preprocessed
       hash: md5
-      md5: c6f23599564ef5479d4b4963e9ae8ae7
-      size: 31610
+      md5: 1dcd2f05b562d14f93a804af1fc33399.dir
+      size: 31638
+      nfiles: 3
     - path: src/train.py
       hash: md5
-      md5: 94a2f97903930e6a020a9ccb4806591e
-      size: 859
+      md5: 17b379504c5375910cb03349102f970c
+      size: 777
     outs:
-    - path: data/predictions.csv
+    - path: models
       hash: md5
-      md5: c5c9234b3381cfa8b7d1649497e18a8a
-      size: 730
-    - path: models/c1_BoW.pkl
-      hash: md5
-      md5: 3fad7a4c0ec1b2a1fc95334240b40d81
-      size: 39432
-    - path: models/c2_model.pkl
-      hash: md5
-      md5: 2e98005c7db9fadc54c17d3118d067fc
-      size: 46215
+      md5: 39603db02dba9706b396a1609378b38f.dir
+      size: 44873
+      nfiles: 2
   evaluate:
     cmd: python src/evaluate.py
     deps:
-    - path: data/predictions.csv
+    - path: data/preprocessed
       hash: md5
-      md5: c5c9234b3381cfa8b7d1649497e18a8a
-      size: 730
+      md5: 1dcd2f05b562d14f93a804af1fc33399.dir
+      size: 31638
+      nfiles: 3
+    - path: models
+      hash: md5
+      md5: 39603db02dba9706b396a1609378b38f.dir
+      size: 44873
+      nfiles: 2
     - path: src/evaluate.py
       hash: md5
-      md5: 47183448125d6937334d5d178b05ee49
-      size: 426
+      md5: 9b14cbf1000f87af95e951e3c1eafd4d
+      size: 880
     outs:
-    - path: metrics.json
+    - path: data/metrics.json
       hash: md5
-      md5: 79d2b3758ddfb474941d20bfc20d2389
-      size: 74
+      md5: 70ab0bd88b4bc5f201e0908a381d132b
+      size: 127
