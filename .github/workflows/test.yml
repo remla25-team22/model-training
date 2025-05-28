@@ -23,6 +23,6 @@ jobs:
           cp coverage.json ..
           cd ..
 
-      # Add this
       - name: Update Coverage Badge
+        if: ${{ always() }} 
         uses: we-cli/coverage-badge-action@main
