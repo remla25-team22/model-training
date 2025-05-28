@@ -25,4 +25,4 @@ jobs:
 
       - name: Update Coverage Badge
         if: ${{ always() }} 
-        uses: we-cli/coverage-badge-action@v1.0.1
+        uses: we-cli/coverage-badge-action@main
