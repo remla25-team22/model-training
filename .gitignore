@@ -1,4 +1,7 @@
 __pycache__/
+tests/__pycache__
+model-training/.pytest_cache
+
 *.py[cod]
 *.so
 
@@ -21,6 +24,9 @@ build/
 *.tmp
 *.swp
 
+
+
+
 .DS_Store
 Thumbs.db
 
@@ -30,3 +36,4 @@ coverage.xml
 pytest_cache/
 
 pylint-report.txt
+/models

@@ -1,26 +1,25 @@
 import pandas as pd
-import re
-import nltk
-from nltk.corpus import stopwords
-from nltk.stem.porter import PorterStemmer
-
-nltk.download('stopwords')
-
-ps = PorterStemmer()
-stop_words = set(stopwords.words('english'))
-stop_words.discard('not')
-
-def clean_review(review):
-    if not isinstance(review, str):
-        return ""
-    review = re.sub('[^a-zA-Z]', ' ', review)
-    review = review.lower().split()
-    return ' '.join(ps.stem(w) for w in review if w not in stop_words)
+from sklearn.model_selection import train_test_split
+from lib_ml.preprocess import clean_review
+import os
 
 def main():
-    dataset = pd.read_csv('data/a1_RestaurantReviews_HistoricDump.tsv', delimiter='\t', quoting=3)
+
+    dataset = pd.read_csv('data/raw/a1_RestaurantReviews_HistoricDump.tsv', delimiter='\t', quoting=3)
     dataset['cleaned'] = dataset['Review'].apply(clean_review)
-    dataset[['cleaned', 'Liked']].to_csv('data/processed.csv', index=False)
+    dataset = dataset[['cleaned', 'Liked']]
+
+    # First split into train and temp (test + val)
+    train_set, temp_set = train_test_split(dataset, test_size=0.2, random_state=42, stratify=dataset['Liked'])
+
+    # Then split temp into val and test (50/50 of remaining 20%)
+    val_set, test_set = train_test_split(temp_set, test_size=0.5, random_state=42, stratify=temp_set['Liked'])
+    os.makedirs('data/preprocessed', exist_ok=True)  # <== ADD THIS LINE
+
+    train_set.to_csv('data/preprocessed/train.csv', index=False)
+    val_set.to_csv('data/preprocessed/val.csv', index=False)
+    test_set.to_csv('data/preprocessed/test.csv', index=False)
+
 
 if __name__ == '__main__':
     main()

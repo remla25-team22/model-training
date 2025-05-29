@@ -1,26 +1,26 @@
 import pandas as pd
 import pickle
 import joblib
-from sklearn.naive_bayes import GaussianNB
-from sklearn.feature_extraction.text import CountVectorizer
-from sklearn.model_selection import train_test_split
-
+from sklearn.linear_model import LogisticRegression
+from sklearn.feature_extraction.text import TfidfVectorizer
+import os 
 def main():
-    data = pd.read_csv('data/processed.csv')
-    data.dropna(subset=['cleaned'], inplace=True)
-    cv = CountVectorizer(max_features=1420)
-    X = cv.fit_transform(data['cleaned']).toarray()
-    y = data['Liked'].values
 
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0)
-    model = GaussianNB()
+    vectorizer = TfidfVectorizer(max_features=1000)
+    data_train = pd.read_csv('data/preprocessed/train.csv')
+    data_train.dropna(inplace=True)
+    print(data_train['cleaned'])
+    X_train = vectorizer.fit_transform(data_train['cleaned'])
+    y_train = data_train['Liked'].values
+
+
+    model = LogisticRegression(max_iter=1000)
     model.fit(X_train, y_train)
-
+    
+    os.makedirs('models', exist_ok=True)  # <== Add this
     with open('models/c1_BoW.pkl', 'wb') as f:
-        pickle.dump(cv, f)
+        pickle.dump(vectorizer, f)
     joblib.dump(model, 'models/c2_model.pkl')
-
-    pd.DataFrame({'true': y_test, 'pred': model.predict(X_test)}).to_csv('data/predictions.csv', index=False)
 
 if __name__ == '__main__':
     main()

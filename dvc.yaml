@@ -2,24 +2,23 @@ stages:
   prepare:
     cmd: python src/data_prep.py
     deps:
-    - data/a1_RestaurantReviews_HistoricDump.tsv
+    - data/raw/a1_RestaurantReviews_HistoricDump.tsv
     - src/data_prep.py
     outs:
-    - data/processed.csv
+    - data/preprocessed
   train:
     cmd: python src/train.py
     deps:
-    - data/processed.csv
+    - data/preprocessed
     - src/train.py
     outs:
-    - data/predictions.csv
-    - models/c1_BoW.pkl
-    - models/c2_model.pkl
+    - models
   evaluate:
     cmd: python src/evaluate.py
     deps:
-    - data/predictions.csv
     - src/evaluate.py
+    - models
+    - data/preprocessed
     metrics:
-    - metrics.json:
+    - data/metrics.json:
         cache: false
