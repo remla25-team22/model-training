@@ -1,4 +1,7 @@
 __pycache__/
+tests/__pycache__
+model-training/.pytest_cache
+
 *.py[cod]
 *.so
 
@@ -20,6 +23,9 @@ build/
 *.log
 *.tmp
 *.swp
+
+
+
 
 .DS_Store
 Thumbs.db
