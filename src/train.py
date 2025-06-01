@@ -1,6 +1,6 @@
 """ Module containing model training logic """
 import os
-import pickle # nosec
+import pickle  # nosec
 import pandas as pd
 import joblib
 from sklearn.linear_model import LogisticRegression

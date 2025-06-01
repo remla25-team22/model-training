@@ -1,6 +1,6 @@
 """ Module containing model evaluation logic """
 import json
-import pickle # nosec
+import pickle  # nosec
 import pandas as pd
 from sklearn.metrics import accuracy_score, confusion_matrix
 import joblib
@@ -9,7 +9,7 @@ import joblib
 def main():
     """ Main funtion performing model evaluation """
     with open('models/c1_BoW.pkl', 'rb') as f:
-        vectorizer = pickle.load(f) # nosec - file is known
+        vectorizer = pickle.load(f)  # nosec - file is known
     model = joblib.load('models/c2_model.pkl')
 
     data_test = pd.read_csv('data/preprocessed/test.csv')
