@@ -4,7 +4,7 @@ model-training/.pytest_cache
 
 *.py[cod]
 *.so
-
+*.pyc
 .ipynb_checkpoints/
 
 venv/
@@ -13,7 +13,6 @@ venv/
 .vscode/
 
 .dvc/
-.dvcignore
 
 *.egg-info/
 dist/
