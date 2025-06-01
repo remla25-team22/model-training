@@ -12,7 +12,6 @@ venv/
 
 .vscode/
 
-*.dvc
 .dvc/
 .dvcignore
 
