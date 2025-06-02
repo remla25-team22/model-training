@@ -12,11 +12,27 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - uses: iterative/setup-dvc@v1
-      - run: |
-          dvc pull ./data/raw/a1_RestaurantReviews_HistoricDump.tsv
-          dvc repro
-          dvc push --verbose -r drive
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install Python dependencies
+        run: pip install -r requirements.txt
+      
+      - name: Set up DVC
+        uses: iterative/setup-dvc@v1
+      
+      - name: DVC Pull
+        run: dvc pull 
+        env:
+          GDRIVE_CREDENTIALS_DATA: ${{ secrets.GDRIVE_SECRET }}
+
+      - name: DVC Repro
+        run: dvc repro 
+
+      - name: Push data to remote DVC
+        run: dvc push --verbose  
         env:
           GDRIVE_CREDENTIALS_DATA: ${{ secrets.GDRIVE_SECRET }}
 
