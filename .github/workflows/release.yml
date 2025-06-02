@@ -11,10 +11,10 @@ jobs:
 
       - name: Checkout repository
         uses: actions/checkout@v3
-        
+
       - uses: iterative/setup-dvc@v1
       - run: |
-          dvc pull .\data\raw\a1_RestaurantReviews_HistoricDump.tsv
+          dvc pull ./data/raw/a1_RestaurantReviews_HistoricDump.tsv
           dvc repro
           dvc push --verbose -r drive
         env:
