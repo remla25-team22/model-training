@@ -8,8 +8,15 @@ on:
 jobs:
   release:
     runs-on: ubuntu-latest
-
     steps:
+      - uses: iterative/setup-dvc@v1
+      - run: |
+          dvc pull .\data\raw\a1_RestaurantReviews_HistoricDump.tsv
+          dvc repro
+          dvc push --verbose -r drive
+        env:
+          GDRIVE_CREDENTIALS_DATA: ${{ secrets.GDRIVE_SECRET }}
+
       - name: Checkout repository
         uses: actions/checkout@v3
 
