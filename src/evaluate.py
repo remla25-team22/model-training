@@ -6,13 +6,13 @@ from sklearn.metrics import accuracy_score, confusion_matrix
 import joblib
 
 
-def main():
+def main(data_dir="data", model_dir="models"):
     """ Main funtion performing model evaluation """
-    with open('models/c1_BoW.pkl', 'rb') as f:
+    with open(f'{model_dir}/c1_BoW.pkl', 'rb') as f:
         vectorizer = pickle.load(f)  # nosec - file is known
-    model = joblib.load('models/c2_model.pkl')
+    model = joblib.load(f'{model_dir}/c2_model.pkl')
 
-    data_test = pd.read_csv('data/preprocessed/test.csv')
+    data_test = pd.read_csv(f'{data_dir}/preprocessed/test.csv', keep_default_na=False)
     x_test = vectorizer.transform(data_test['cleaned'])
     y_test = data_test['Liked'].values
 
@@ -26,7 +26,7 @@ def main():
         'confusion_matrix': cm.tolist()
     }
 
-    with open('data/metrics.json', 'w', encoding='UTF-8') as f:
+    with open(f'{data_dir}/metrics.json', 'w', encoding='UTF-8') as f:
         json.dump(metrics, f, indent=2)
 
 

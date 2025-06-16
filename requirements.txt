@@ -10,3 +10,6 @@ coverage
 flake8
 bandit
 git+https://github.com/remla25-team22/lib-ml.git@v1.0.2
+memory_profiler
+coverage
+pytest-cov
