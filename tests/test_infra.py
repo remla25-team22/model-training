@@ -5,14 +5,15 @@ from pathlib import Path
 import sys
 import os
 import pytest
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 import subprocess
 import pickle
 from lib_ml.preprocess import clean_review
 
-import src.data_prep as data_prep
-import src.evaluate as evaluate
-import src.train as train
+from model_training import config
+from model_training import train
+from model_training import evaluate
+from model_training import data_prep
+
 import pandas as pd
 import joblib
 import numpy as np
@@ -34,14 +35,20 @@ CLEANED_MAP = {clean_review(k): clean_review(v) for k, v in RAW_WORDS.items()}
 MIN_INVARIANCE = 0.85
 
 @pytest.mark.ml_test("INF-1")  # Infra-1: Training is reproducible
-def test_determinism(tmp_path):
+def test_determinism(tmp_path, monkeypatch):
     seeds = [0, 12, 42, 100, 1000]
     min_acc = 0.7
 
     data_dir = tmp_path / "data"
     model_dir = tmp_path / "models"
+    reports_dir = tmp_path / "reports"
     data_dir.mkdir()
     model_dir.mkdir()
+    reports_dir.mkdir()
+    monkeypatch.setattr(config, "PROJECT_ROOT", tmp_path)
+    monkeypatch.setattr(config, "DATA_DIR", data_dir)
+    monkeypatch.setattr(config, "MODEL_DIR", model_dir)
+    monkeypatch.setattr(config, "REPORT_DIR", reports_dir)
 
     raw_data_src = Path("data/raw/a1_RestaurantReviews_HistoricDump.tsv")
     shared_raw_dir = tmp_path / "raw"
@@ -51,6 +58,7 @@ def test_determinism(tmp_path):
     results = []
 
     for seed in seeds:
+        monkeypatch.setattr(config, "RANDOM_SEED", seed)
         for p in data_dir.iterdir():
             if p.name != "raw":
                 if p.is_dir():
@@ -67,11 +75,11 @@ def test_determinism(tmp_path):
         raw_dir.mkdir(parents=True, exist_ok=True)
         shutil.copy2(shared_raw_dir / raw_data_src.name, raw_dir / raw_data_src.name)
 
-        data_prep.main(data_dir=data_dir, seed=seed)
-        train.main(data_dir=data_dir, model_dir=model_dir)
-        evaluate.main(data_dir=data_dir, model_dir=model_dir)
+        data_prep.main()
+        train.main()
+        evaluate.main()
 
-        with open(data_dir / "metrics.json", "r") as f:
+        with open(reports_dir / "metrics.json", "r") as f:
             acc = json.load(f)["accuracy"]
             results.append(acc > min_acc)
 
@@ -124,21 +132,21 @@ def test_full_dvc_pipeline(tmp_path: Path) -> None:
     Infra 3: Verify that every stage (prepare → train → evaluate) still
     executes end-to-end without crashing or losing its outputs.
     """
-    project_root = Path(__file__).resolve().parents[1]  # adjust if tests/ is deeper
+    project_root = Path(__file__).resolve().parents[1]
     workspace = tmp_path / "sandbox"
     _copy_project_skeleton(project_root, workspace)
 
     _create_mini_dataset(workspace / "data" / "raw")
 
     subprocess.run(["dvc", "init", "--no-scm", "-q"], cwd=workspace, check=True)
+    env = dict(os.environ)
+    env["PYTHONPATH"] = str(workspace / "src")
 
-    subprocess.run(["dvc", "repro", "-q"], cwd=workspace, check=True)
+    subprocess.run(["dvc", "repro", "-q"], cwd=workspace, check=True, env=env)
 
     assert (workspace / "data" / "preprocessed" / "train.csv").stat().st_size > 0
     assert (workspace / "models" / "c2_model.pkl").exists()
-    assert (workspace / "data" / "metrics.json").exists()
-
-
+    assert (workspace / "reports" / "metrics.json").exists()
 
 
 @pytest.mark.ml_test("INF-4")   # Infra-4: Model quality is validated before attempting to serve it

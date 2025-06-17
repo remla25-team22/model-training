@@ -18,7 +18,6 @@ POINTS_PER_ID       = 1
 TESTS_PER_SECTION   = 7          
 
 
-
 def _section_from_id(test_id: str) -> str:
     """Map 'FD-1', 'ML-6', … → section name; fallback 'unknown'."""
     m = re.match(r"([A-Z]+)-", test_id)

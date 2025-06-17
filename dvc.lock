@@ -1,16 +1,20 @@
 schema: '2.0'
 stages:
   prepare:
-    cmd: python src/data_prep.py
+    cmd: python -m model_training.data_prep
     deps:
     - path: data/raw/a1_RestaurantReviews_HistoricDump.tsv
       hash: md5
       md5: 8104bfc2f44d60939e1fd3208a187500
       size: 55587
-    - path: src/data_prep.py
+    - path: src/model_training/config.py
       hash: md5
-      md5: 35451dbf47913665b061a88765604876
-      size: 1269
+      md5: 7dbd979c9627df3666aa00838caba407
+      size: 376
+    - path: src/model_training/data_prep.py
+      hash: md5
+      md5: f4124ba5b9e3ca4d383d3406cc70808e
+      size: 1516
     outs:
     - path: data/preprocessed
       hash: md5
@@ -18,17 +22,21 @@ stages:
       size: 31638
       nfiles: 3
   train:
-    cmd: python src/train.py
+    cmd: python -m model_training.train
     deps:
     - path: data/preprocessed
       hash: md5
       md5: 271a64171afe3151e94ec2961c13959f.dir
       size: 31638
       nfiles: 3
-    - path: src/train.py
+    - path: src/model_training/config.py
       hash: md5
-      md5: 4ac1f184f98640cca563cef4ea9148f3
-      size: 880
+      md5: 7dbd979c9627df3666aa00838caba407
+      size: 376
+    - path: src/model_training/train.py
+      hash: md5
+      md5: da5fc5d87b7fcf00c5a43479d3a44172
+      size: 941
     outs:
     - path: models
       hash: md5
@@ -36,7 +44,7 @@ stages:
       size: 44918
       nfiles: 2
   evaluate:
-    cmd: python src/evaluate.py
+    cmd: python -m model_training.evaluate
     deps:
     - path: data/preprocessed
       hash: md5
@@ -48,12 +56,16 @@ stages:
       md5: 1ea6671fb03d87a9cb8a9c45585a1290.dir
       size: 44918
       nfiles: 2
-    - path: src/evaluate.py
+    - path: src/model_training/config.py
       hash: md5
-      md5: e1247269faf434faaa754dedd6d1f745
-      size: 923
+      md5: 7dbd979c9627df3666aa00838caba407
+      size: 376
+    - path: src/model_training/evaluate.py
+      hash: md5
+      md5: a8315bd0aa0c61e2246c5116efdd362e
+      size: 1052
     outs:
-    - path: data/metrics.json
+    - path: reports/metrics.json
       hash: md5
       md5: 4e1b7ba1f1e8768d39d276b15c0ccda1
       size: 126

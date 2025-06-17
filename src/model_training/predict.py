@@ -3,7 +3,6 @@ import pickle  # nosec
 import joblib
 from lib_ml.preprocess import clean_review
 
-
 def predict(review_input: str) -> str:
     """ Function performing sentiment analysis on the given input string """
     with open("models/c1_BoW.pkl", "rb") as f:

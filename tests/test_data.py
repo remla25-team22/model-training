@@ -10,7 +10,7 @@ EXPECTED_COLUMNS = {
 }
 LENGTH_THRESHOLD = {'min': 0, 'max': 500}
 
-@pytest.mark.ml_test("FD-1")   # Data-1: feature expectations captured in a schema
+@pytest.mark.ml_test("FD-1")   # FD-1: feature expectations captured in a schema
 @pytest.mark.parametrize("split", ["train", "val", "test"])
 def test_data_invariants(split):
     path = f"data/preprocessed/{split}.csv"
@@ -40,7 +40,7 @@ def test_data_invariants(split):
     assert lengths.max() <= LENGTH_THRESHOLD['max'], f"Some 'cleaned' entries exceed {LENGTH_THRESHOLD['max']}"
 
 
-@pytest.mark.ml_test("FD-2")   # Data-1:  All features are beneficial
+@pytest.mark.ml_test("FD-2")   # FD-2:  All features are beneficial
 def test_feature_benefit_by_coefficients():
     model = joblib.load('models/c2_model.pkl')
     coefs = model.coef_.ravel()         

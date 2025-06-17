@@ -17,8 +17,8 @@ jobs:
 
     - name: Install deps
       run: |
+        pip install -e .
         pip install -r requirements.txt
-        pip install "dvc[gdrive]"
 
     - name: dvc pull
       env:
