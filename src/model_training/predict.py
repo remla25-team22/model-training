@@ -1,15 +1,16 @@
 """ Module containing prediction logic """
 import pickle  # nosec
 import joblib
-from data_prep import clean_review
+from lib_ml.preprocess import clean_review
+from . import config
 
 
 def predict(review_input: str) -> str:
     """ Function performing sentiment analysis on the given input string """
-    with open("models/c1_BoW.pkl", "rb") as f:
+    with open(f"{config.MODEL_DIR}/c1_BoW.pkl", "rb") as f:
         cv = pickle.load(f)  # nosec - file is known
 
-    model = joblib.load("models/c2_model.pkl")
+    model = joblib.load(f"{config.MODEL_DIR}/c2_model.pkl")
 
     vector = cv.transform([clean_review(review_input)]).toarray()
     prediction = model.predict(vector)[0]

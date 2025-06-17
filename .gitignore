@@ -22,7 +22,7 @@ build/
 *.tmp
 *.swp
 
-
+.coverage.parviz-Latitude-5520.16613.XDSTultx
 
 
 .DS_Store
@@ -35,3 +35,5 @@ pytest_cache/
 
 pylint-report.txt
 /models
+config.local
+zorkey.json
