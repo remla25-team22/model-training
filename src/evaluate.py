@@ -9,7 +9,7 @@ import joblib
 def main(data_dir="data", model_dir="models"):
     """ Main funtion performing model evaluation """
     with open(f'{model_dir}/c1_BoW.pkl', 'rb') as f:
-        vectorizer = pickle.load(f)  # nosec - file is known
+        vectorizer = pickle.load(f)  # nosec - file is known.
     model = joblib.load(f'{model_dir}/c2_model.pkl')
 
     data_test = pd.read_csv(f'{data_dir}/preprocessed/test.csv', keep_default_na=False)
