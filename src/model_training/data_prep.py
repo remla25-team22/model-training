@@ -5,6 +5,8 @@ from sklearn.model_selection import train_test_split
 from lib_ml.preprocess import clean_review
 
 from . import config
+
+
 def main():
     """ Main data preperation function, prcesses and saves data for training """
     dataset = pd.read_csv(

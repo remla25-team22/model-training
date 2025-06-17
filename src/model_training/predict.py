@@ -4,6 +4,7 @@ import joblib
 from lib_ml.preprocess import clean_review
 from . import config
 
+
 def predict(review_input: str) -> str:
     """ Function performing sentiment analysis on the given input string """
     with open(f"{config.MODEL_DIR}/c1_BoW.pkl", "rb") as f:

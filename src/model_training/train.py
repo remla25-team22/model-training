@@ -8,7 +8,6 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from . import config
 
 
-
 def main():
     """ Main function performing model training"""
     vectorizer = TfidfVectorizer(max_features=config.NUM_FEATURES)
