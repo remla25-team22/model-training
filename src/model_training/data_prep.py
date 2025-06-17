@@ -7,7 +7,6 @@ from lib_ml.preprocess import clean_review
 from . import config
 def main():
     """ Main data preperation function, prcesses and saves data for training """
-    print("gele ble ", config.DATA_DIR)
     dataset = pd.read_csv(
         filepath_or_buffer=f'{config.DATA_DIR}/raw/a1_RestaurantReviews_HistoricDump.tsv',
         delimiter='\t',

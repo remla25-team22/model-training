@@ -13,6 +13,7 @@ from model_training import config
 from model_training import train
 from model_training import evaluate
 from model_training import data_prep
+from model_training import predict
 
 import pandas as pd
 import joblib
@@ -126,6 +127,7 @@ def _create_mini_dataset(raw_dir: Path) -> None:
     (raw_dir / "a1_RestaurantReviews_HistoricDump.tsv").write_text(sample, encoding="utf-8")
 
 
+@pytest.mark.no_cover
 @pytest.mark.ml_test("INF-3")  # Infra-3: full pipeline integration test
 def test_full_dvc_pipeline(tmp_path: Path) -> None:
     """
@@ -143,7 +145,7 @@ def test_full_dvc_pipeline(tmp_path: Path) -> None:
     env["PYTHONPATH"] = str(workspace / "src")
 
     subprocess.run(["dvc", "repro", "-q"], cwd=workspace, check=True, env=env)
-
+    
     assert (workspace / "data" / "preprocessed" / "train.csv").stat().st_size > 0
     assert (workspace / "models" / "c2_model.pkl").exists()
     assert (workspace / "reports" / "metrics.json").exists()
@@ -182,3 +184,14 @@ def test_synonym_swap_invariance():
     assert invariance >= MIN_INVARIANCE, (
         f"Synonym swap invariance too low: {invariance:.2%} < {MIN_INVARIANCE:.2%}"
     )
+
+
+@pytest.mark.ml_test("INF-3")          # Infra-3: full pipeline integration test
+def test_predict_smoke():
+    """
+    Smoke-test for the inference entry-point.
+    Succeeds if `predict` runs end-to-end on a single sentence and
+    returns one of the two allowed strings.
+    """
+    sentiment = predict.predict("Amazing food and friendly staff!")
+    assert sentiment in {"positive", "negative"}
