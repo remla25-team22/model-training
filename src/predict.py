@@ -1,7 +1,7 @@
 """ Module containing prediction logic """
 import pickle  # nosec
 import joblib
-from data_prep import clean_review
+from lib_ml.preprocess import clean_review
 
 
 def predict(review_input: str) -> str:
