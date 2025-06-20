@@ -1,0 +1,1 @@
+base64 -d gdrive.txt > readonly-gdrive.json
