@@ -12,8 +12,6 @@ venv/
 
 .vscode/
 
-.dvc/
-
 *.egg-info/
 dist/
 build/
@@ -35,3 +33,5 @@ pytest_cache/
 
 pylint-report.txt
 /models
+
+.dvc/readonly-gdrive.json
