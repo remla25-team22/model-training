@@ -23,6 +23,8 @@ This repository contains the training pipeline for the Restaurant Sentiment Anal
 
 Trained models (vectorizer + classifier) are stored and released via GitHub Releases. They are downloaded by the `model-service` at runtime based on the `MODEL_TAG`.
 
+## Google Drive access
+To ensure a successfull `dvc pull` , the command `cd ./.dvc && ./gdrive-access.sh` should be run.
 
 ##  Related Services
 
