@@ -5,14 +5,16 @@ import pandas as pd
 from sklearn.metrics import accuracy_score, confusion_matrix
 import joblib
 
+from . import config
+
 
 def main():
     """ Main funtion performing model evaluation """
-    with open('models/c1_BoW.pkl', 'rb') as f:
-        vectorizer = pickle.load(f)  # nosec - file is known
-    model = joblib.load('models/c2_model.pkl')
+    with open(f'{config.MODEL_DIR}/c1_BoW.pkl', 'rb') as f:
+        vectorizer = pickle.load(f)
+    model = joblib.load(f'{config.MODEL_DIR}/c2_model.pkl')
 
-    data_test = pd.read_csv('data/preprocessed/test.csv')
+    data_test = pd.read_csv(f'{config.DATA_DIR}/preprocessed/test.csv', keep_default_na=False)
     x_test = vectorizer.transform(data_test['cleaned'])
     y_test = data_test['Liked'].values
 
@@ -25,8 +27,8 @@ def main():
         'accuracy': acc,
         'confusion_matrix': cm.tolist()
     }
-
-    with open('data/metrics.json', 'w', encoding='UTF-8') as f:
+    print("This shows old value ", config.REPORT_DIR)
+    with open(f'{config.REPORT_DIR}/metrics.json', 'w', encoding='UTF-8') as f:
         json.dump(metrics, f, indent=2)
 
 
