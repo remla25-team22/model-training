@@ -3,5 +3,8 @@
 ['remote "drive"']
     url = gdrive://1QT5qUrJc4px-Kw1k9AGC_MBNPUn-qYRl
     gdrive_use_service_account = true
-    gdrive_service_account_json_file_path = readonly-gdrive.json
 
+['remote "drive_readonly"']
+    url = gdrive://1QT5qUrJc4px-Kw1k9AGC_MBNPUn-qYRl
+    gdrive_use_service_account = true
+    gdrive_service_account_json_file_path = readonly-gdrive.json
