@@ -1,0 +1,2 @@
+[BASIC]
+good-names = i,j,df,cv,X,y                 # allow common ML short names

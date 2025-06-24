@@ -1,24 +1,28 @@
 stages:
   prepare:
-    cmd: python src/data_prep.py
+    cmd: python -m model_training.data_prep          # ← run as a package
     deps:
-    - data/raw/a1_RestaurantReviews_HistoricDump.tsv
-    - src/data_prep.py
+      - data/raw/a1_RestaurantReviews_HistoricDump.tsv
+      - src/model_training/data_prep.py                           
+      - src/model_training/config.py                              
     outs:
-    - data/preprocessed
+      - data/preprocessed
   train:
-    cmd: python src/train.py
+    cmd: python -m model_training.train
     deps:
-    - data/preprocessed
-    - src/train.py
+      - data/preprocessed
+      - src/model_training/train.py
+      - src/model_training/config.py                              
     outs:
-    - models
+      - models
+
   evaluate:
-    cmd: python src/evaluate.py
+    cmd: python -m model_training.evaluate
     deps:
-    - src/evaluate.py
-    - models
-    - data/preprocessed
+      - models
+      - src/model_training/evaluate.py
+      - src/model_training/config.py     
+      - data/preprocessed
     metrics:
-    - data/metrics.json:
-        cache: false
+      - reports/metrics.json:
+          cache: false
