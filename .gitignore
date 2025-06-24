@@ -12,8 +12,6 @@ venv/
 
 .vscode/
 
-.dvc/
-
 *.egg-info/
 dist/
 build/
@@ -35,5 +33,4 @@ pytest_cache/
 
 pylint-report.txt
 /models
-config.local
-zorkey.json
+.dvc/readonly-gdrive.json
