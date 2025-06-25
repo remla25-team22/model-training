@@ -9,8 +9,8 @@ stages:
       size: 55587
     - path: src/model_training/config.py
       hash: md5
-      md5: 1bdb959a0f5c1d6c937f6ba612ad3b8c
-      size: 377
+      md5: 80c446d2afe7225160a3c9f7630531e7
+      size: 376
     - path: src/model_training/data_prep.py
       hash: md5
       md5: 6ccd9da4899fcdfc5f5b571b7c1ce842
@@ -31,8 +31,8 @@ stages:
       nfiles: 3
     - path: src/model_training/config.py
       hash: md5
-      md5: 1bdb959a0f5c1d6c937f6ba612ad3b8c
-      size: 377
+      md5: 80c446d2afe7225160a3c9f7630531e7
+      size: 376
     - path: src/model_training/train.py
       hash: md5
       md5: 84c63287bd722342745e8784e07938b1
@@ -40,8 +40,8 @@ stages:
     outs:
     - path: models
       hash: md5
-      md5: 1ea6671fb03d87a9cb8a9c45585a1290.dir
-      size: 44918
+      md5: f3fa5ab3c834a12d82139975178a715a.dir
+      size: 5930
       nfiles: 2
   evaluate:
     cmd: python -m model_training.evaluate
@@ -53,13 +53,13 @@ stages:
       nfiles: 3
     - path: models
       hash: md5
-      md5: 1ea6671fb03d87a9cb8a9c45585a1290.dir
-      size: 44918
+      md5: f3fa5ab3c834a12d82139975178a715a.dir
+      size: 5930
       nfiles: 2
     - path: src/model_training/config.py
       hash: md5
-      md5: 1bdb959a0f5c1d6c937f6ba612ad3b8c
-      size: 377
+      md5: 80c446d2afe7225160a3c9f7630531e7
+      size: 376
     - path: src/model_training/evaluate.py
       hash: md5
       md5: a8315bd0aa0c61e2246c5116efdd362e
@@ -67,5 +67,5 @@ stages:
     outs:
     - path: reports/metrics.json
       hash: md5
-      md5: 4e1b7ba1f1e8768d39d276b15c0ccda1
-      size: 126
+      md5: 70057d0c2a600855d3c369dd17fc7d71
+      size: 127

@@ -8,7 +8,7 @@ from . import config
 def predict(review_input: str) -> str:
     """ Function performing sentiment analysis on the given input string """
     with open(f"{config.MODEL_DIR}/c1_BoW.pkl", "rb") as f:
-        cv = pickle.load(f)  # nosec - file is known
+        cv = pickle.load(f) 
 
     model = joblib.load(f"{config.MODEL_DIR}/c2_model.pkl")
 
