@@ -186,10 +186,9 @@ def test_synonym_swap_invariance():
     )
 
 
-@pytest.mark.ml_test("INF-3")          # Infra-3: full pipeline integration test
-def test_predict_smoke():
+@pytest.mark.ml_test("INF-3")          # Infra-3: Prediction function test
+def test_predict_function():
     """
-    Smoke-test for the inference entry-point.
     Succeeds if `predict` runs end-to-end on a single sentence and
     returns one of the two allowed strings.
     """
